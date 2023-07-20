@@ -8,5 +8,5 @@ class Recipient < ApplicationRecord
     validates :email, presence: true
     validates :birth_date, presence: true
     validates :employment_start_date, presence: true
-    validates :is_active, presence: true
+    validates :is_active, exclusion: [nil]
 end
