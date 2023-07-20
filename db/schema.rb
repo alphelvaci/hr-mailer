@@ -16,8 +16,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_115702) do
     t.datetime "sent_at"
     t.text "error_message"
     t.integer "recipient_id", null: false
+    t.integer "cc_recipient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["cc_recipient_id"], name: "index_log_entries_on_cc_recipient_id"
     t.index ["recipient_id"], name: "index_log_entries_on_recipient_id"
   end
 
@@ -37,5 +39,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_115702) do
   end
 
   add_foreign_key "log_entries", "recipients"
+  add_foreign_key "log_entries", "recipients", column: "cc_recipient_id"
   add_foreign_key "recipients", "recipients", column: "manager_id"
 end
