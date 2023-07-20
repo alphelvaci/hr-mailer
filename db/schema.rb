@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_19_115335) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_19_115702) do
+  create_table "log_entries", force: :cascade do |t|
+    t.string "status", null: false
+    t.datetime "sent_at"
+    t.text "error_message"
+    t.integer "recipient_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipient_id"], name: "index_log_entries_on_recipient_id"
+  end
+
   create_table "recipients", force: :cascade do |t|
     t.string "kolay_ik_id", null: false
     t.string "first_name", null: false
@@ -26,5 +36,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_115335) do
     t.index ["manager_id"], name: "index_recipients_on_manager_id"
   end
 
+  add_foreign_key "log_entries", "recipients"
   add_foreign_key "recipients", "recipients", column: "manager_id"
 end
