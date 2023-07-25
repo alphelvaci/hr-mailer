@@ -12,6 +12,8 @@
 
 ActiveRecord::Schema[7.0].define(version: 2023_07_19_115702) do
   create_table "log_entries", force: :cascade do |t|
+    t.string "reason", null: false
+    t.date "date", null: false
     t.string "status", null: false
     t.datetime "sent_at"
     t.text "error_message"

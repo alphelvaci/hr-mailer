@@ -1,6 +1,9 @@
 class CreateLogEntries < ActiveRecord::Migration[7.0]
   def change
     create_table :log_entries do |t|
+      t.string :reason, null: false
+      t.date :date, null: false
+
       t.string :status, null: false
       t.datetime :sent_at
       t.text :error_message
