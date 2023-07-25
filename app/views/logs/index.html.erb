@@ -1,0 +1,16 @@
+<div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
+  <div class="list-group">
+  <% @logs.each do |log| %>
+    <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+      <div class="d-flex gap-2 w-100 justify-content-between">
+        <div>
+          <h6 class="mb-0"><% if log.reason == 'birthday' %>Birthday<% else %>Work anniversary<% end %> of <%= log.recipient.first_name %> <%= log.recipient.last_name %></h6>
+        </div>
+        <div>
+        </div>
+        <small class="opacity-50 text-nowrap"><%= distance_to_date_in_words(log.date) %></small>
+      </div>
+    </a>
+    <% end %>
+  </div>
+</div>
