@@ -1,6 +1,6 @@
 class LogsController < ApplicationController
   def index
-    @logs = LogEntry.all
+    @logs = LogEntry.order(date: :desc).all
   end
 
   def retry
