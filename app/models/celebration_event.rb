@@ -2,9 +2,9 @@ class CelebrationEvent < ApplicationRecord
     belongs_to :recipient
     belongs_to :cc_recipient, class_name: "Recipient", optional: true
 
-    validates :reason, presence: true
+    validates :reason, presence: true, inclusion: ['birthday', 'work_anniversary']
     validates :date, presence: true
-    validates :status, presence: true
+    validates :status, presence: true, inclusion: ['pending', 'error', 'sent']
     validates :recipient, presence: true
 
     def self.generate_future_celebration_events
