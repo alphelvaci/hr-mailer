@@ -22,6 +22,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_115702) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cc_recipient_id"], name: "index_log_entries_on_cc_recipient_id"
+    t.index ["recipient_id", "reason", "date"], name: "index_log_entries_on_recipient_id_and_reason_and_date", unique: true
     t.index ["recipient_id"], name: "index_log_entries_on_recipient_id"
   end
 
