@@ -1,6 +1,6 @@
-class CreateLogEntries < ActiveRecord::Migration[7.0]
+class CreateCelebrationEvents < ActiveRecord::Migration[7.0]
   def change
-    create_table :log_entries do |t|
+    create_table :celebration_events do |t|
       t.string :reason, null: false
       t.date :date, null: false
 
@@ -13,6 +13,6 @@ class CreateLogEntries < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-    add_index :log_entries, [:recipient_id, :reason, :date], unique: true
+    add_index :celebration_events, [:recipient_id, :reason, :date], unique: true
   end
 end

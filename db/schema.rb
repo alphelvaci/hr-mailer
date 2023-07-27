@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_07_19_115702) do
-  create_table "log_entries", force: :cascade do |t|
+  create_table "celebration_events", force: :cascade do |t|
     t.string "reason", null: false
     t.date "date", null: false
     t.string "status", null: false
@@ -21,9 +21,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_115702) do
     t.integer "cc_recipient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["cc_recipient_id"], name: "index_log_entries_on_cc_recipient_id"
-    t.index ["recipient_id", "reason", "date"], name: "index_log_entries_on_recipient_id_and_reason_and_date", unique: true
-    t.index ["recipient_id"], name: "index_log_entries_on_recipient_id"
+    t.index ["cc_recipient_id"], name: "index_celebration_events_on_cc_recipient_id"
+    t.index ["recipient_id", "reason", "date"], name: "index_celebration_events_on_recipient_id_and_reason_and_date", unique: true
+    t.index ["recipient_id"], name: "index_celebration_events_on_recipient_id"
   end
 
   create_table "recipients", force: :cascade do |t|
@@ -41,7 +41,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_115702) do
     t.index ["manager_id"], name: "index_recipients_on_manager_id"
   end
 
-  add_foreign_key "log_entries", "recipients"
-  add_foreign_key "log_entries", "recipients", column: "cc_recipient_id"
+  add_foreign_key "celebration_events", "recipients"
+  add_foreign_key "celebration_events", "recipients", column: "cc_recipient_id"
   add_foreign_key "recipients", "recipients", column: "manager_id"
 end

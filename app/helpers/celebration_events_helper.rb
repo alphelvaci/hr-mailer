@@ -1,4 +1,4 @@
-module LogsHelper
+module CelebrationEventsHelper
     def distance_to_date_in_words date
         diff_in_minutes = ((Time.current() - date.at_beginning_of_day()) / 60).round
         if diff_in_minutes.abs() <= 1440

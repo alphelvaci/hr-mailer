@@ -1,4 +1,4 @@
-class LogEntry < ApplicationRecord
+class CelebrationEvent < ApplicationRecord
     belongs_to :recipient
     belongs_to :cc_recipient, class_name: "Recipient", optional: true
 
@@ -7,7 +7,7 @@ class LogEntry < ApplicationRecord
     validates :status, presence: true
     validates :recipient, presence: true
 
-    def self.generate_future_logs
+    def self.generate_future_celebration_events
         # TODO simplify this function
 
         birthday_recipients =  Recipient.active.where([
@@ -21,13 +21,13 @@ class LogEntry < ApplicationRecord
         ]))
 
         for recipient in birthday_recipients do
-            LogEntry.find_or_create_by(
+            CelebrationEvent.find_or_create_by(
                 reason: 'birthday',
                 date: recipient.birth_date.change(year: 2023),
                 recipient: recipient,
-            ) do |new_log_entry|
-                new_log_entry.status = 'pending'
-                new_log_entry.cc_recipient = recipient.manager
+            ) do |new_celebration_event|
+                new_celebration_event.status = 'pending'
+                new_celebration_event.cc_recipient = recipient.manager
             end
         end
 
@@ -42,13 +42,13 @@ class LogEntry < ApplicationRecord
         ]))
 
         for recipient in work_anniversary_recipients do
-            LogEntry.find_or_create_by(
+            CelebrationEvent.find_or_create_by(
                 reason: 'work_anniversary',
                 date: recipient.employment_start_date.change(year: 2023),
                 recipient: recipient,
-            ) do |new_log_entry|
-                new_log_entry.status = 'pending'
-                new_log_entry.cc_recipient = recipient.manager
+            ) do |new_celebration_event|
+                new_celebration_event.status = 'pending'
+                new_celebration_event.cc_recipient = recipient.manager
             end
         end
 

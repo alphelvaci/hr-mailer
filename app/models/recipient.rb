@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 class Recipient < ApplicationRecord
-    has_many :log_entries
+    has_many :celebration_events
     belongs_to :manager, class_name: "Recipient", optional: true
 
     validates :kolay_ik_id, presence: true
