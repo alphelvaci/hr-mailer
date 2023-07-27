@@ -13,6 +13,10 @@ class Recipient < ApplicationRecord
     validates :employment_start_date, presence: true
     validates :is_active, exclusion: [nil]
 
+    def self.active
+        return Recipient.where(is_active: true)
+    end
+
     def self.refresh_one kolay_ik_id
         if kolay_ik_id.blank?
             return nil
