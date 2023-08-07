@@ -1,41 +1,16 @@
 <div class="d-flex flex-column py-md-5 align-items-center">
-  <div class="list-group">
-  <% @celebration_events.each do |celebration_event| %>
-    <a href="#" class="container list-group-item list-group-item-action py-3" aria-current="true">
-      <div class="row align-items-center">
-        <div class="col-4">
-          <h6 class="mb-0">
-            <% if celebration_event.reason == 'birthday' %>
-            Birthday
-            <% elsif celebration_event.reason == 'work_anniversary' %>
-            Work anniversary
-            <% end %>
-            of <%= celebration_event.recipient.first_name %> <%= celebration_event.recipient.last_name %>
-            </h6>
-        </div>
-        <div class="col-3 ps-4">
-          <% if celebration_event.status == 'pending' %>
-            <span class="badge bg-secondary">Pending</span>
-          <% elsif celebration_event.status == 'sent' %>
-            <span class="badge bg-success">Sent</span>
-          <% elsif celebration_event.status == 'error' %>
-            <span class="badge bg-danger">Error</span>
-          <% end %>
-        </div>
-        <div class="col-3">
-          <% if celebration_event.reason == 'birthday' %>
-          <p class="mb-0"><small class="opacity-50">Born:</small></p>
-          <%= celebration_event.recipient.birth_date %>
-          <% elsif celebration_event.reason == 'work_anniversary' %>
-          <p class="mb-0"><small class="opacity-50">Employed:</small></p>
-          <%= celebration_event.recipient.employment_start_date %>
-          <% end %>
-        </div>
-        <div class="col-2 d-flex justify-content-end">
-          <small class="opacity-50 text-nowrap"><%= distance_to_date_in_words(celebration_event.date) %></small>
-        </div>
+  <div class="accordion mb-5" style="width: 640px;" id="futureAccordion">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse" aria-expanded="false" aria-controls="collapseTwo">
+          Future Celebration Events
+        </button>
+      </h2>
+      <div id="collapse" class="accordion-collapse collapse" data-bs-parent="#futureAccordion">
+        <%= render partial: "event_list", locals: {celebration_events: @future_celebration_events, flush: true} %>
       </div>
-    </a>
-    <% end %>
+    </div>
   </div>
+  
+  <%= render partial: "event_list", locals: {celebration_events: @celebration_events, flush: false} %>
 </div>
