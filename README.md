@@ -1,24 +1,12 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This application sends emails to Pisano employees on their birthdays and
+Employment anniversaries.
 
-Things you may want to cover:
+Currently, there is only a development environment. To setup:
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1. Get the master encryption key (only required for pulling real data from KolayIK)
+2. `rails console`
+3. Inside the console: `Recipient.refresh_all` and `CelebrationEvent.generate_future_celebration_events`
+4. `rails server`
+5. Go to: http://127.0.0.1:3000/celebration-events
