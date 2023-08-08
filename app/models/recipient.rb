@@ -58,11 +58,12 @@ class Recipient < ApplicationRecord
 
     def self.refresh_all
         kolay_ik_ids = []
+        is_for_active_employees = 0
         page = 1
         done = false
         until done
             uri = URI('https://kolayik.com/api/v2/person/list')
-            form_data = "page=#{page}"
+            form_data = "page=#{page}&status=#{is_for_active_employees}"
             headers = {
                 'Authorization': "Bearer #{Rails.application.credentials.kolayik_api_key}",
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -81,6 +82,17 @@ class Recipient < ApplicationRecord
             kolay_ik_ids += response['data']['items'].map { |item| item['id'] }
             done = (page == response['data']['lastPage'])
             page += 1
+
+            if done && is_for_active_employees == 0
+                # repeat the loop for active employees
+                done = false
+                is_for_active_employees = 1
+                page = 1
+            end
+
+            if done
+                puts kolay_ik_ids.length
+            end
         end
 
         for id in kolay_ik_ids
