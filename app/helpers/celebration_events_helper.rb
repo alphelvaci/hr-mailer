@@ -1,12 +1,14 @@
 module CelebrationEventsHelper
     def distance_to_date_in_words date
-        diff_in_minutes = ((Time.current() - date.at_beginning_of_day()) / 60).round
-        if diff_in_minutes.abs() <= 1440
+        today = Time.now.at_beginning_of_day()
+        date = date.at_beginning_of_day().change(offset: Time.now.zone)
+        
+        if date == today
             return 'Today'
-        elsif diff_in_minutes < 0
-            return 'in ' + distance_of_time_in_words_to_now(date)
+        elsif date > today
+            return 'in ' + distance_of_time_in_words(today, date)
         else
-            return distance_of_time_in_words_to_now(date) + ' ago'
+            return distance_of_time_in_words(date, today) + ' ago'
         end
     end
 end
