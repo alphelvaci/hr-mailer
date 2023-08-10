@@ -7,24 +7,28 @@ class CelebrationEvent < ApplicationRecord
     validates :status, presence: true, inclusion: ['pending', 'error', 'sent']
     validates :recipient, presence: true
 
+    def celebrate
+        begin
+            if self.reason == 'birthday'
+                CelebrationMailer.with(recipient: self.recipient).birthday_email.deliver_now
+            elsif self.reason == 'work_anniversary'
+                CelebrationMailer.with(recipient: self.recipient).work_anniversary_email.deliver_now
+            end
+            self.error_message = nil
+            self.status = 'sent'
+        rescue => error
+            self.error_message = error.inspect
+            self.status = 'error'
+        ensure
+            self.save()
+        end
+    end
+
     def self.celebrate_todays_events
         events = CelebrationEvent.where(date: Time.now).where.not(status: 'sent')
 
         for event in events
-            begin
-                if event.reason == 'birthday'
-                    CelebrationMailer.with(recipient: event.recipient).birthday_email.deliver_now
-                elsif event.reason == 'work_anniversary'
-                    CelebrationMailer.with(recipient: event.recipient).work_anniversary_email.deliver_now
-                end
-                event.error_message = nil
-                event.status = 'sent'
-            rescue => error
-                event.error_message = error.inspect
-                event.status = 'error'
-            ensure
-                event.save()
-            end
+            event.celebrate
         end
     end
 
