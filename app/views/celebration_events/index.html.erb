@@ -12,5 +12,7 @@
     </div>
   </div>
   
-  <%= render partial: "event_list", locals: {celebration_events: @celebration_events, flush: false} %>
+  <div style="width: 640px;">
+    <%= render partial: "event_list", locals: {celebration_events: @celebration_events, flush: false} %>
+  </div>
 </div>
