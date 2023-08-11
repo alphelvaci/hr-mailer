@@ -36,11 +36,11 @@ class CelebrationEvent < ApplicationRecord
         # TODO simplify this function
 
         birthday_recipients =  Recipient.active.where([
-            "CAST(strftime('%m', birth_date) AS INTEGER) = ? AND CAST(strftime('%d', birth_date) AS INTEGER) >= ?",
+            "EXTRACT(MONTH FROM birth_date) = ? AND EXTRACT(DAY FROM birth_date) >= ?",
             Time.now.month,
             Time.now.day
         ]).or(Recipient.where([
-            "CAST(strftime('%m', birth_date) AS INTEGER) = ? AND CAST(strftime('%d', birth_date) AS INTEGER) <= ?",
+            "EXTRACT(MONTH FROM birth_date) = ? AND EXTRACT(DAY FROM birth_date) <= ?",
             Time.now.month + 1,
             Time.now.day
         ]))
@@ -57,11 +57,11 @@ class CelebrationEvent < ApplicationRecord
         end
 
         work_anniversary_recipients =  Recipient.active.where([
-            "CAST(strftime('%m', employment_start_date) AS INTEGER) = ? AND CAST(strftime('%d', employment_start_date) AS INTEGER) >= ?",
+            "EXTRACT(MONTH FROM employment_start_date) = ? AND EXTRACT(DAY FROM employment_start_date) >= ?",
             Time.now.month,
             Time.now.day
         ]).or(Recipient.where([
-            "CAST(strftime('%m', employment_start_date) AS INTEGER) = ? AND CAST(strftime('%d', employment_start_date) AS INTEGER) <= ?",
+            "EXTRACT(MONTH FROM employment_start_date) = ? AND EXTRACT(DAY FROM employment_start_date) <= ?",
             Time.now.month + 1,
             Time.now.day
         ]))

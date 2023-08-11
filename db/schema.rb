@@ -11,14 +11,17 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_07_19_115702) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "celebration_events", force: :cascade do |t|
     t.string "reason", null: false
     t.date "date", null: false
     t.string "status", null: false
     t.datetime "sent_at"
     t.text "error_message"
-    t.integer "recipient_id", null: false
-    t.integer "cc_recipient_id"
+    t.bigint "recipient_id", null: false
+    t.bigint "cc_recipient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cc_recipient_id"], name: "index_celebration_events_on_cc_recipient_id"
@@ -34,7 +37,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_115702) do
     t.date "birth_date", null: false
     t.date "employment_start_date", null: false
     t.boolean "is_active", null: false
-    t.integer "manager_id"
+    t.bigint "manager_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["kolay_ik_id"], name: "index_recipients_on_kolay_ik_id"
