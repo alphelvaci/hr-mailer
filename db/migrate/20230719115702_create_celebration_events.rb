@@ -1,10 +1,12 @@
 class CreateCelebrationEvents < ActiveRecord::Migration[7.0]
   def change
+    create_enum :celebration_event_reason, ["birthday", "work_anniversary"]
+    create_enum :celebration_event_status, ["pending", "pending_retry", "error", "sent"]
     create_table :celebration_events do |t|
-      t.string :reason, null: false
+      t.enum :reason, enum_type: "celebration_event_reason", null: false
       t.date :date, null: false
 
-      t.string :status, null: false
+      t.enum :status, enum_type: "celebration_event_status", default: "pending", null: false
       t.datetime :sent_at
       t.text :error_message
 

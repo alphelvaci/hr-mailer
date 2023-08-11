@@ -14,10 +14,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_115702) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "celebration_event_reason", ["birthday", "work_anniversary"]
+  create_enum "celebration_event_status", ["pending", "pending_retry", "error", "sent"]
+
   create_table "celebration_events", force: :cascade do |t|
-    t.string "reason", null: false
+    t.enum "reason", null: false, enum_type: "celebration_event_reason"
     t.date "date", null: false
-    t.string "status", null: false
+    t.enum "status", default: "pending", null: false, enum_type: "celebration_event_status"
     t.datetime "sent_at"
     t.text "error_message"
     t.bigint "recipient_id", null: false

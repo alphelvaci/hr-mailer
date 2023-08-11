@@ -1,10 +1,13 @@
 class CelebrationEvent < ApplicationRecord
+    enum :reason, {birthday: "birthday", work_anniversary: "work_anniversary"}
+    enum :status, {pending: "pending", pending_retry: "pending_retry", error: "error", sent: "sent"}, default: :pending
+
     belongs_to :recipient
     belongs_to :cc_recipient, class_name: "Recipient", optional: true
 
-    validates :reason, presence: true, inclusion: ['birthday', 'work_anniversary']
+    validates :reason, presence: true
     validates :date, presence: true
-    validates :status, presence: true, inclusion: ['pending', 'error', 'sent']
+    validates :status, presence: true
     validates :recipient, presence: true
 
     def celebrate
@@ -51,7 +54,6 @@ class CelebrationEvent < ApplicationRecord
                 date: recipient.birth_date.change(year: 2023),
                 recipient: recipient,
             ) do |new_celebration_event|
-                new_celebration_event.status = 'pending'
                 new_celebration_event.cc_recipient = recipient.manager
             end
         end
@@ -72,7 +74,6 @@ class CelebrationEvent < ApplicationRecord
                 date: recipient.employment_start_date.change(year: 2023),
                 recipient: recipient,
             ) do |new_celebration_event|
-                new_celebration_event.status = 'pending'
                 new_celebration_event.cc_recipient = recipient.manager
             end
         end

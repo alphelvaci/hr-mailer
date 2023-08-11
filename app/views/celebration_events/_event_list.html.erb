@@ -4,28 +4,28 @@
       <div class="row align-items-center">
         <div class="col-4">
           <h6 class="mb-0">
-            <% if celebration_event.reason == 'birthday' %>
+            <% if celebration_event.birthday? %>
             Birthday
-            <% elsif celebration_event.reason == 'work_anniversary' %>
+            <% elsif celebration_event.work_anniversary? %>
             Work anniversary
             <% end %>
             of <%= celebration_event.recipient.first_name %> <%= celebration_event.recipient.last_name %>
             </h6>
         </div>
         <div class="col-3 ps-4">
-          <% if celebration_event.status == 'pending' %>
+          <% if celebration_event.pending? %>
             <span class="badge bg-secondary">Pending</span>
-          <% elsif celebration_event.status == 'sent' %>
+          <% elsif celebration_event.sent? %>
             <span class="badge bg-success">Sent</span>
-          <% elsif celebration_event.status == 'error' %>
+          <% elsif celebration_event.error? %>
             <span class="badge bg-danger">Error</span>
           <% end %>
         </div>
         <div class="col-3">
-          <% if celebration_event.reason == 'birthday' %>
+          <% if celebration_event.birthday? %>
           <p class="mb-0"><small class="opacity-50">Born:</small></p>
           <%= celebration_event.recipient.birth_date %>
-          <% elsif celebration_event.reason == 'work_anniversary' %>
+          <% elsif celebration_event.work_anniversary? %>
           <p class="mb-0"><small class="opacity-50">Employed:</small></p>
           <%= celebration_event.recipient.employment_start_date %>
           <% end %>
