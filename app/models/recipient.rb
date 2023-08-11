@@ -8,9 +8,7 @@ class Recipient < ApplicationRecord
     validates :kolay_ik_id, :first_name, :last_name, :email, :birth_date, :employment_start_date, presence: true
     validates :is_active, exclusion: [nil]
 
-    def self.active
-        return Recipient.where(is_active: true)
-    end
+    scope :active, -> { where(is_active: true) }
 
     def self.refresh_one kolay_ik_id
         if kolay_ik_id.blank?
