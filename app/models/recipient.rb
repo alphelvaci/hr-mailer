@@ -5,12 +5,7 @@ class Recipient < ApplicationRecord
     has_many :celebration_events
     belongs_to :manager, class_name: "Recipient", optional: true
 
-    validates :kolay_ik_id, presence: true
-    validates :first_name, presence: true
-    validates :last_name, presence: true
-    validates :email, presence: true
-    validates :birth_date, presence: true
-    validates :employment_start_date, presence: true
+    validates :kolay_ik_id, :first_name, :last_name, :email, :birth_date, :employment_start_date, presence: true
     validates :is_active, exclusion: [nil]
 
     def self.active
