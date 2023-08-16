@@ -19,7 +19,10 @@
         <span class="fs-4">HR Auto Mailer</span>
       </a>
       <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Celebration Events</a></li>
+        <li class="nav-item"><a href="/celebration-events" class="nav-link active" aria-current="page">Celebration Events</a></li>
+        <% if admin_signed_in? %>
+          <li class="nav-item"><%= button_to 'Sign out', '/admins/logout', method: :delete, class: "btn" %></li>
+        <% end %>
       </ul>
     </header>
     </div>
