@@ -40,7 +40,7 @@ class CelebrationEvent < ApplicationRecord
         Time.now.day
       ]
     ).or(
-      Recipient.where(
+      Recipient.active.where(
         [
           'EXTRACT(MONTH FROM birth_date) = ? AND EXTRACT(DAY FROM birth_date) <= ?',
           Time.now.month + 1,
@@ -66,7 +66,7 @@ class CelebrationEvent < ApplicationRecord
         Time.now.day
       ]
     ).or(
-      Recipient.where(
+      Recipient.active.where(
         [
           'EXTRACT(MONTH FROM employment_start_date) = ? AND EXTRACT(DAY FROM employment_start_date) <= ?',
           Time.now.month + 1,
