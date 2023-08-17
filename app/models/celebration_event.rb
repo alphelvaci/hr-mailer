@@ -31,27 +31,9 @@ class CelebrationEvent < ApplicationRecord
   end
 
   def self.generate_future_celebration_events
-    # TODO: simplify this function
+    days_ahead = 7
 
-    days_ahead = 7;
-
-    birthday_recipients = Recipient.active.where(
-      [
-        'EXTRACT(MONTH FROM birth_date) = ? AND EXTRACT(DAY FROM birth_date) BETWEEN ? AND ?',
-        Time.now.month,
-        Time.now.day,
-        Time.now.day + days_ahead
-      ]
-    ).or(  # In the case where days ahead extend into the next month
-      Recipient.active.where(
-        [
-          'EXTRACT(MONTH FROM birth_date) = ? AND EXTRACT(DAY FROM birth_date) BETWEEN 0 AND ?',
-          (Time.now.month + 1) % 12,
-          Time.now.day + days_ahead - Time.days_in_month(Time.now.month)
-        ]
-      )
-    )
-
+    birthday_recipients = Recipient.get_recipients_to_celebrate('birthday', days_ahead)
     for recipient in birthday_recipients do
       CelebrationEvent.find_or_create_by(
         reason: 'birthday',
@@ -62,23 +44,7 @@ class CelebrationEvent < ApplicationRecord
       end
     end
 
-    work_anniversary_recipients = Recipient.active.where(
-      [
-        'EXTRACT(MONTH FROM employment_start_date) = ? AND EXTRACT(DAY FROM employment_start_date) BETWEEN ? AND ?',
-        Time.now.month,
-        Time.now.day,
-        Time.now.day + days_ahead
-      ]
-    ).or(
-      Recipient.active.where(
-        [
-          'EXTRACT(MONTH FROM employment_start_date) = ? AND EXTRACT(DAY FROM employment_start_date) BETWEEN 0 AND ?',
-          (Time.now.month + 1) % 12,
-          Time.now.day + days_ahead - Time.days_in_month(Time.now.month)
-        ]
-      )
-    )
-
+    work_anniversary_recipients = Recipient.get_recipients_to_celebrate('work_anniversary', days_ahead)
     for recipient in work_anniversary_recipients do
       CelebrationEvent.find_or_create_by(
         reason: 'work_anniversary',
@@ -88,7 +54,5 @@ class CelebrationEvent < ApplicationRecord
         new_celebration_event.cc_recipient = recipient.manager
       end
     end
-
-    true
   end
 end

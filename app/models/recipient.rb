@@ -10,6 +10,30 @@ class Recipient < ApplicationRecord
 
   scope :active, -> { where(is_active: true) }
 
+  def self.get_recipients_to_celebrate(reason, days_ahead)
+    raise 'days_ahead cannot be more than 28' unless days_ahead <= 28
+    raise 'reason must be birthday or work_anniversary' unless %w[birthday work_anniversary].include?(reason)
+
+    date_field = reason == 'birthday' ? 'birth_date' : 'employment_start_date'
+
+    Recipient.active.where(
+      [
+        "EXTRACT(MONTH FROM #{date_field}) = ? AND EXTRACT(DAY FROM #{date_field}) BETWEEN ? AND ?",
+        Time.now.month,
+        Time.now.day,
+        Time.now.day + days_ahead
+      ]
+    ).or(  # In the case where days ahead extend into the next month
+      Recipient.active.where(
+        [
+          "EXTRACT(MONTH FROM #{date_field}) = ? AND EXTRACT(DAY FROM #{date_field}) BETWEEN 0 AND ?",
+          (Time.now.month + 1) % 12,
+          Time.now.day + days_ahead - Time.days_in_month(Time.now.month)
+        ]
+      )
+    )
+  end
+
   def self.refresh_one(kolay_ik_id)
     return nil if kolay_ik_id.blank?
 
