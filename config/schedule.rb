@@ -13,6 +13,10 @@ every 1.day, at: '9:00 am' do
   runner 'DailyCelebrationJob.perform_later'
 end
 
+every 1.day, at: '11:00 am' do
+  runner 'DailyRetryJob.perform_later'
+end
+
 every :monday, at: '6:00 am' do
   runner 'WeeklyRecipientRefreshJob.perform_later'
 end

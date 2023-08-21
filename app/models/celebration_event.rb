@@ -7,7 +7,7 @@ class CelebrationEvent < ApplicationRecord
 
   validates :reason, :date, :status, :recipient, presence: true
 
-  def celebrate
+  def celebrate(retry_: false)
     if reason == 'birthday'
       CelebrationMailer.with(recipient:).birthday_email.deliver_now
     elsif reason == 'work_anniversary'
@@ -17,16 +17,30 @@ class CelebrationEvent < ApplicationRecord
     self.status = 'sent'
   rescue StandardError => e
     self.error_message = e.inspect
-    self.status = 'error'
+    self.status = retry_ == true ? 'error' : 'pending_retry'
   ensure
     save
   end
 
   def self.celebrate_todays_events
-    events = CelebrationEvent.where(date: Time.now).where.not(status: 'sent')
+    events = CelebrationEvent.where(date: Time.now).where(status: 'pending')
 
     for event in events
       event.celebrate
+    end
+  end
+
+  def self.retry_todays_events
+    events = CelebrationEvent.where(date: Time.now).where(status: 'pending_retry')
+
+    for event in events
+      event.celebrate(retry_: true)
+    end
+
+    failed_events = CelebrationEvent.where(date: Time.now).where(status: 'error')
+
+    for event in failed_events
+      AdminMailer.with(admin: Admin.first, celebration_event: event).failed_celebration_email.deliver_later
     end
   end
 
