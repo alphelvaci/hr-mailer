@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  kolay_ik_id: MyString
+  first_name: One
+  last_name: MyString
+  email: MyString
+  birth_date: 2023-08-21
+  employment_start_date: 2023-08-21
+  is_active: true
+  manager: one
+
+two:
+  kolay_ik_id: MyString
+  first_name: Two
+  last_name: MyString
+  email: MyString
+  birth_date: 2023-08-21
+  employment_start_date: 2023-08-21
+  is_active: true
+  manager: two
+
+inactive:
+  kolay_ik_id: MyString
+  first_name: Inactive
+  last_name: MyString
+  email: MyString
+  birth_date: 2023-08-21
+  employment_start_date: 2023-08-21
+  is_active: false
+  manager: two
