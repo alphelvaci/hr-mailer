@@ -4,7 +4,7 @@ one:
   kolay_ik_id: MyString
   first_name: One
   last_name: MyString
-  email: MyString
+  email: one@pisano.com
   birth_date: 1977-12-20
   employment_start_date: 2020-01-18
   is_active: true
@@ -13,7 +13,7 @@ two:
   kolay_ik_id: MyString
   first_name: Two
   last_name: MyString
-  email: MyString
+  email: two@pisano.com
   birth_date: 1991-12-27
   employment_start_date: 2021-01-17
   is_active: true
@@ -23,7 +23,7 @@ three:
   kolay_ik_id: MyString
   first_name: Three
   last_name: MyString
-  email: MyString
+  email: three@pisano.com
   birth_date: 2000-01-17
   employment_start_date: 2019-12-27
   is_active: true
@@ -33,7 +33,7 @@ four:
   kolay_ik_id: MyString
   first_name: Four
   last_name: MyString
-  email: MyString
+  email: four@pisano.com
   birth_date: 1999-01-18
   employment_start_date: 2022-12-20
   is_active: true
@@ -43,7 +43,7 @@ five:
   kolay_ik_id: MyString
   first_name: Four
   last_name: MyString
-  email: MyString
+  email: five@pisano.com
   birth_date: 1985-12-25
   employment_start_date: 2022-01-19
   is_active: true
@@ -53,7 +53,7 @@ inactive:
   kolay_ik_id: MyString
   first_name: Inactive
   last_name: MyString
-  email: MyString
+  email: inactive@pisano.com
   birth_date: 1996-12-30
   employment_start_date: 2020-01-17
   is_active: false

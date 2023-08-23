@@ -6,3 +6,22 @@ one:
   date: 2020-10-10
   recipient: one
 
+two:
+  # status pending by default
+  reason: work_anniversary
+  date: 2020-10-10
+  recipient: two
+
+three:
+  status: pending_retry
+  reason: birthday
+  date: 2020-10-11
+  recipient: two
+  error_message: an_error
+
+four:
+  status: pending_retry
+  reason: work_anniversary
+  date: 2020-10-11
+  recipient: one
+  error_message: an_error

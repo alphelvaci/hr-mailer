@@ -12,6 +12,12 @@ Metrics/AbcSize:
   Max: 40
 
 # Offense count: 1
+# Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns.
+# AllowedMethods: refine
+Metrics/BlockLength:
+  Max: 32
+
+# Offense count: 1
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Metrics/CyclomaticComplexity:
   Max: 9
