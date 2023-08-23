@@ -1,0 +1,8 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  # status pending by default
+  reason: birthday
+  date: 2020-10-10
+  recipient: one
+
