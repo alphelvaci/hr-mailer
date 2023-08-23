@@ -25,7 +25,7 @@ class CelebrationEvent < ApplicationRecord
   def self.celebrate_todays_events
     events = CelebrationEvent.where(date: Time.now).where(status: 'pending')
 
-    for event in events
+    events.each do |event|
       event.celebrate
     end
   end
@@ -33,13 +33,13 @@ class CelebrationEvent < ApplicationRecord
   def self.retry_todays_events
     events = CelebrationEvent.where(date: Time.now).where(status: 'pending_retry')
 
-    for event in events
+    events.each do |event|
       event.celebrate(retry_: true)
     end
 
     failed_events = CelebrationEvent.where(date: Time.now).where(status: 'error')
 
-    for event in failed_events
+    failed_events.each do |event|
       AdminMailer.with(admin: Admin.first, celebration_event: event).failed_celebration_email.deliver_later
     end
   end
@@ -48,7 +48,7 @@ class CelebrationEvent < ApplicationRecord
     days_ahead = 7
 
     birthday_recipients = Recipient.get_recipients_to_celebrate('birthday', days_ahead)
-    for recipient in birthday_recipients do
+    birthday_recipients.each do |recipient|
       CelebrationEvent.find_or_create_by(
         reason: 'birthday',
         date: recipient.birth_date.change(year: 2023),
@@ -59,7 +59,7 @@ class CelebrationEvent < ApplicationRecord
     end
 
     work_anniversary_recipients = Recipient.get_recipients_to_celebrate('work_anniversary', days_ahead)
-    for recipient in work_anniversary_recipients do
+    work_anniversary_recipients.each do |recipient|
       CelebrationEvent.find_or_create_by(
         reason: 'work_anniversary',
         date: recipient.employment_start_date.change(year: 2023),

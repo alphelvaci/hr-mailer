@@ -104,7 +104,7 @@ class Recipient < ApplicationRecord
       puts kolay_ik_ids.length if done
     end
 
-    for id in kolay_ik_ids
+    kolay_ik_ids.each do |id|
       Recipient.refresh_one(id)
     end
 

@@ -79,13 +79,6 @@ Style/Documentation:
     - 'db/migrate/20230719115335_create_recipients.rb'
     - 'db/migrate/20230719115702_create_celebration_events.rb'
 
-# Offense count: 4
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: .
-# SupportedStyles: each, for
-Style/For:
-  EnforcedStyle: for
-
 # Offense count: 39
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle.
