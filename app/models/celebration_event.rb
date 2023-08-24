@@ -7,6 +7,8 @@ class CelebrationEvent < ApplicationRecord
 
   validates :reason, :date, :status, :recipient, presence: true
 
+  scope :today, -> { where(date: Time.now) }
+
   def celebrate(retry_: false)
     if reason == 'birthday'
       CelebrationMailer.with(recipient:).birthday_email.deliver_now
@@ -23,7 +25,7 @@ class CelebrationEvent < ApplicationRecord
   end
 
   def self.celebrate_todays_events
-    events = CelebrationEvent.where(date: Time.now).where(status: 'pending')
+    events = CelebrationEvent.today.pending
 
     events.each do |event|
       event.celebrate
@@ -31,13 +33,13 @@ class CelebrationEvent < ApplicationRecord
   end
 
   def self.retry_todays_events
-    events = CelebrationEvent.where(date: Time.now).where(status: 'pending_retry')
+    events = CelebrationEvent.today.pending_retry
 
     events.each do |event|
       event.celebrate(retry_: true)
     end
 
-    failed_events = CelebrationEvent.where(date: Time.now).where(status: 'error')
+    failed_events = CelebrationEvent.today.error
 
     failed_events.each do |event|
       AdminMailer.with(admin: Admin.first, celebration_event: event).failed_celebration_email.deliver_later
