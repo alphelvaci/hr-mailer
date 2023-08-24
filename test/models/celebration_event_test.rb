@@ -6,6 +6,8 @@ class CelebrationEventTest < ActiveSupport::TestCase
   end
 
   test 'celebrate method' do
+    CelebrationMailer.deliveries = nil
+
     celebration_events(:one).celebrate
     assert_same 1, CelebrationMailer.deliveries.length
     assert_same 1, CelebrationMailer.deliveries[0].to.length
@@ -41,5 +43,33 @@ class CelebrationEventTest < ActiveSupport::TestCase
     assert_match 'Anniversary', CelebrationMailer.deliveries[3].subject
     assert celebration_events(:four).sent?
     assert_nil celebration_events(:four).error_message
+  end
+
+  test 'celebrate_todays_events method' do
+    travel_to Date.new(2023, 8, 25) do
+      sent = CelebrationEvent.where(date: Date.new(2023, 8, 25)).sent.length
+      pending = CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending.length
+      pending_retry = CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending_retry.length
+
+      CelebrationEvent.celebrate_todays_events
+
+      assert_same sent + pending, CelebrationEvent.where(date: Date.new(2023, 8, 25)).sent.length
+      assert_same 0, CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending.length
+      assert_same pending_retry, CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending_retry.length
+    end
+  end
+
+  test 'retry_todays_events method' do
+    travel_to Date.new(2023, 8, 25) do
+      sent = CelebrationEvent.where(date: Date.new(2023, 8, 25)).sent.length
+      pending = CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending.length
+      pending_retry = CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending_retry.length
+
+      CelebrationEvent.retry_todays_events
+
+      assert_same sent + pending_retry, CelebrationEvent.where(date: Date.new(2023, 8, 25)).sent.length
+      assert_same pending, CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending.length
+      assert_same 0, CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending_retry.length
+    end
   end
 end

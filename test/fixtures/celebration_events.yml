@@ -25,3 +25,27 @@ four:
   date: 2020-10-11
   recipient: one
   error_message: an_error
+
+five:
+  # status pending by default
+  reason: work_anniversary
+  date: 2023-08-25
+  recipient: two
+
+six:
+  status: pending_retry
+  reason: birthday
+  date: 2023-08-25
+  recipient: two
+
+seven:
+  # status pending by default
+  reason: birthday
+  date: 2023-07-12
+  recipient: two
+
+eight:
+  # status pending by default
+  reason: work_anniversary
+  date: 2150-09-13
+  recipient: two
