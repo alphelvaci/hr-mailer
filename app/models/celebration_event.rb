@@ -25,22 +25,15 @@ class CelebrationEvent < ApplicationRecord
   end
 
   def self.celebrate_todays_events
-    events = CelebrationEvent.today.pending
-
-    events.each do |event|
-      event.celebrate
-    end
+    CelebrationEvent.today.pending.each(&:celebrate)
   end
 
   def self.retry_todays_events
-    events = CelebrationEvent.today.pending_retry
-
-    events.each do |event|
+    CelebrationEvent.today.pending_retry.each do |event|
       event.celebrate(retry_: true)
     end
 
     failed_events = CelebrationEvent.today.error
-
     failed_events.each do |event|
       AdminMailer.with(admin: Admin.first, celebration_event: event).failed_celebration_email.deliver_later
     end
