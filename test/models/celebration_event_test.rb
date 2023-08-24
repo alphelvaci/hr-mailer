@@ -47,29 +47,45 @@ class CelebrationEventTest < ActiveSupport::TestCase
 
   test 'celebrate_todays_events method' do
     travel_to Date.new(2023, 8, 25) do
-      sent = CelebrationEvent.where(date: Date.new(2023, 8, 25)).sent.length
-      pending = CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending.length
-      pending_retry = CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending_retry.length
+      other_sent = CelebrationEvent.where.not(date: Date.new(2023, 8, 25)).sent.length
+      other_pending = CelebrationEvent.where.not(date: Date.new(2023, 8, 25)).pending.length
+      other_pending_retry = CelebrationEvent.where.not(date: Date.new(2023, 8, 25)).pending_retry.length
+
+      today_sent = CelebrationEvent.where(date: Date.new(2023, 8, 25)).sent.length
+      today_pending = CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending.length
+      today_pending_retry = CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending_retry.length
 
       CelebrationEvent.celebrate_todays_events
 
-      assert_same sent + pending, CelebrationEvent.where(date: Date.new(2023, 8, 25)).sent.length
+      assert_same today_sent + today_pending, CelebrationEvent.where(date: Date.new(2023, 8, 25)).sent.length
       assert_same 0, CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending.length
-      assert_same pending_retry, CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending_retry.length
+      assert_same today_pending_retry, CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending_retry.length
+
+      assert_same other_sent, CelebrationEvent.where.not(date: Date.new(2023, 8, 25)).sent.length
+      assert_same other_pending, CelebrationEvent.where.not(date: Date.new(2023, 8, 25)).pending.length
+      assert_same other_pending_retry, CelebrationEvent.where.not(date: Date.new(2023, 8, 25)).pending_retry.length
     end
   end
 
   test 'retry_todays_events method' do
     travel_to Date.new(2023, 8, 25) do
-      sent = CelebrationEvent.where(date: Date.new(2023, 8, 25)).sent.length
-      pending = CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending.length
-      pending_retry = CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending_retry.length
+      other_sent = CelebrationEvent.where.not(date: Date.new(2023, 8, 25)).sent.length
+      other_pending = CelebrationEvent.where.not(date: Date.new(2023, 8, 25)).pending.length
+      other_pending_retry = CelebrationEvent.where.not(date: Date.new(2023, 8, 25)).pending_retry.length
+
+      today_sent = CelebrationEvent.where(date: Date.new(2023, 8, 25)).sent.length
+      today_pending = CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending.length
+      today_pending_retry = CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending_retry.length
 
       CelebrationEvent.retry_todays_events
 
-      assert_same sent + pending_retry, CelebrationEvent.where(date: Date.new(2023, 8, 25)).sent.length
-      assert_same pending, CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending.length
+      assert_same today_sent + today_pending_retry, CelebrationEvent.where(date: Date.new(2023, 8, 25)).sent.length
+      assert_same today_pending, CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending.length
       assert_same 0, CelebrationEvent.where(date: Date.new(2023, 8, 25)).pending_retry.length
+
+      assert_same other_sent, CelebrationEvent.where.not(date: Date.new(2023, 8, 25)).sent.length
+      assert_same other_pending, CelebrationEvent.where.not(date: Date.new(2023, 8, 25)).pending.length
+      assert_same other_pending_retry, CelebrationEvent.where.not(date: Date.new(2023, 8, 25)).pending_retry.length
     end
   end
 end
