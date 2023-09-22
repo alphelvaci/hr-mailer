@@ -15,6 +15,8 @@
         <div class="col-3 ps-4">
           <% if celebration_event.pending? %>
             <span class="badge bg-secondary">Pending</span>
+          <% elsif celebration_event.pending_retry? %>
+            <span class="badge bg-warning">Pending Retry</span>
           <% elsif celebration_event.sent? %>
             <span class="badge bg-success">Sent</span>
           <% elsif celebration_event.error? %>
