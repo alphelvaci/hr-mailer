@@ -16,13 +16,14 @@ Currently, there is only a development environment. To setup:
 
 Notes for Pisano team to create a production environment:
 
-1. Configure a database, I used and tested with postgresql.
-2. See the steps for the development environment to populate the database for the first time. After that, everything will be on a schedule.
-3. The single `Admin` record you create must have the email `people@pisano.com`.
-4. Configure Ruby Action Mailer to use Pisano SMTP, ideally with a new email such as celebrations@pisano.com.
-5. Set the `default from` in `application_mailer.rb` to the preferred email.
-6. I used the whenever gem to schedule jobs. Please update the crontab with `whenever --update-crontab`.
-7. Verify the crontab with `crontab -l`, it should have four entries from this app.
-8. Hopefully all should work!
+1. Fork this repo.
+2. Configure a database, I used and tested with postgresql.
+3. See the steps for the development environment to populate the database for the first time. After that, everything will be on a schedule.
+4. The single `Admin` record you create must have the email `people@pisano.com`.
+5. Configure Ruby Action Mailer to use Pisano SMTP, ideally with a new email such as celebrations@pisano.com.
+6. Set the `default from` in `application_mailer.rb` to the preferred email.
+7. I used the whenever gem to schedule jobs. Please update the crontab with `whenever --update-crontab`.
+8. Verify the crontab with `crontab -l`, it should have four entries from this app.
+9. Hopefully all should work!
 
 Contact me at mail@alphelvaci.com for any questions.
