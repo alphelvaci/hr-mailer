@@ -24,3 +24,5 @@ Notes for Pisano team to create a production environment:
 6. I used the whenever gem to schedule jobs. Please update the crontab with `whenever --update-crontab`.
 7. Verify the crontab with `crontab -l`, it should have four entries from this app.
 8. Hopefully all should work!
+
+Contact me at mail@alphelvaci.com for any questions.
